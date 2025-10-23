@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro Animation + Info</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #333;
+    overflow-x: hidden;
+    font-family: "Segoe UI", sans-serif;
+    color: #fff;
+  }
+
+  .container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* 上下遮罩 */
+  .mask {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+  }
+  .top-mask { top: 0; z-index: 2; animation: openTop 1s ease-out forwards, fadeTop 1s ease-out forwards; }
+  .bottom-mask { bottom: 0; z-index: 4; animation: openBottom 1s ease-out forwards; }
+
+  /* 角色 */
+  .character {
+    position: absolute;
+    top: 50%; /* 角色靠上，给文字留空间 */
+    left: 50%;
+    width: 896px;
+    height: 605px;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    z-index: 1;
+    object-fit: contain;
+    animation: appear 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards 0.2s,
+               float 2s ease-in-out infinite alternate 1.8s;
+  }
+
+  /* 文字内容 */
+  .content {
+    position: relative;
+    margin-top: 1vh; /* 在角色动画下方 */
+    text-align: center;
+    color: #fff;
+    padding: 50px 20px;
+  }
+  .content h1 { font-size: 2.5em; margin-bottom: 0.5em; }
+  .content p { max-width: 600px; margin: 1em auto; line-height: 1.5em; }
+  .content a {
+    color: #00ccff;
+    text-decoration: none;
+    border-bottom: 1px solid #00ccff;
+    margin: 0 5px;
+  }
+
+  /* 动画定义 */
+  @keyframes openTop { 0% { transform: translateY(0); } 100% { transform: translateY(-30%); } }
+  @keyframes fadeTop { 0% { opacity: 1; } 100% { opacity: 0.3; } }
+  @keyframes openBottom { 0% { transform: translateY(0); } 100% { transform: translateY(50%); } }
+  @keyframes appear { 0% { transform: translate(-50%, -50%) scale(0.9); opacity:0; } 100% { transform: translate(-50%, -50%) scale(1); opacity:1; } }
+  @keyframes float { 0% { transform: translate(-50%, -50%) translateY(0); } 100% { transform: translate(-50%, -50%) translateY(-15px); } }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 上遮罩 PNG -->
+  <img src="images/topMask.png" class="mask top-mask" alt="Top Mask">
+
+  <!-- 下遮罩 PNG -->
+  <img src="images/bottomMask.png" class="mask bottom-mask" alt="Bottom Mask">
+
+  <!-- 角色 PNG -->
+  <img src="images/Charactor.png" class="character" alt="Character">
+</div>
+
+<!-- 文字内容 -->
+<div class="content">
+  <h1>Hello, I'm ShadowDoge :3</h1>
+  <p>I'm a game developer / designer / artist.  
+     Welcome to my personal website.</p>
+  <p>
+    <a href="https://github.com/gnihTehT">GitHub</a> ·
+    <a href="https://shadowdoge0306.itch.io/">Itch.io</a> ·
+    <a href="mailto:you@example.com">Email</a>
+  </p>
+</div>
+
+<script>
+  const topMask = document.querySelector('.top-mask');
+  const character = document.querySelector('.character');
+
+  // 上遮罩动画结束后，把角色放到上遮罩下方，但仍低于下遮罩
+  topMask.addEventListener('animationend', () => {
+    character.style.zIndex = 3;
+  });
+</script>
+
+</body>
+</html>
